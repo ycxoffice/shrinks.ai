@@ -60,12 +60,12 @@ const InnovativeDirectory = () => {
                 <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
                   The Future of
                   <span className="block bg-clip-text text-transparent bg-gradient-to-r from-violet-400 via-indigo-400 to-blue-400">
-                    Mental Health Tech
+                    Health Tech
                   </span>
                 </h1>
                 <p className="text-slate-400 text-lg mb-8">
                   Discover and analyze innovative companies revolutionizing
-                  mental healthcare through AI and technology.
+                   healthcare through AI and technology.
                 </p>
 
                 {/* Innovative Search */}
