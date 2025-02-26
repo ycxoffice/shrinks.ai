@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Brain,
   Search,
@@ -16,6 +17,7 @@ import {
 const InnovativeDirectory = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("digital");
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-slate-900 text-white">
@@ -45,9 +47,6 @@ const InnovativeDirectory = () => {
                   <NavPill>Analytics</NavPill>
                 </div>
               </div>
-              <button className="px-6 py-2 rounded-full bg-violet-500/20 border border-violet-500/30 hover:bg-violet-500/30 transition-all">
-                Submit Company
-              </button>
             </div>
           </div>
         </nav>
@@ -65,23 +64,17 @@ const InnovativeDirectory = () => {
                 </h1>
                 <p className="text-slate-400 text-lg mb-8">
                   Discover and analyze innovative companies revolutionizing
-                   healthcare through AI and technology.
+                  healthcare through AI and technology.
                 </p>
 
-                {/* Innovative Search */}
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-blue-500 rounded-2xl blur opacity-20" />
-                  <div className="relative flex items-center bg-slate-800 rounded-2xl p-2">
-                    <Search className="h-6 w-6 text-slate-400 ml-4" />
-                    <input
-                      type="text"
-                      placeholder="Search companies, technologies, or treatments..."
-                      className="w-full bg-transparent border-0 focus:ring-0 text-white pl-4 pr-4 py-4"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                    <button className="px-6 py-3 bg-gradient-to-r from-violet-500 to-blue-500 rounded-xl text-white font-medium">
-                      Search
+                  <div className="relative flex items-center justify-center bg-slate-800 rounded-2xl p-4">
+                    <button
+                      onClick={() => navigate("/companies")}
+                      className="px-6 py-3 bg-gradient-to-r from-violet-500 to-blue-500 rounded-xl text-white font-medium shadow-lg hover:scale-105 transition-transform"
+                    >
+                      Explore Companies
                     </button>
                   </div>
                 </div>

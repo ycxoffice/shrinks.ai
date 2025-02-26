@@ -12,7 +12,7 @@ function CompanyData() {
       try {
         // Google Sheets API endpoint - keeping the same logic
         const sheetId = "19tJdC-ayb6C5mokUCUdD7TB7COsbowvYQAOWYLqM3Yw";
-        const tabId = "0";  
+        const tabId = "0";
         const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&gid=${tabId}`;
 
         const response = await fetch(url);
@@ -113,7 +113,7 @@ function CompanyData() {
 
   if (!company) return null;
 
-     // Define attribute groups based on your list
+  // Define attribute groups based on your list
   const generalInfo = [
     "Industry",
     "Headquarters",
@@ -135,7 +135,7 @@ function CompanyData() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white-900 via-pink-100 to-white text-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
       <div className="container mx-auto px-4 py-8">
         <Link
           to="/companies"
@@ -389,20 +389,18 @@ function CompanyData() {
                           </span>
                           <span className="text-white">
                             {key === "Founders & LinkedIn URLs" &&
-                            company[key].includes("LinkedIn:")
-                              ? (
-                                <div
-                                  dangerouslySetInnerHTML={{
-                                    __html: company[key].replace(
-                                      /(https:\/\/www\.linkedin\.com\/[^\s,]+)/g,
-                                      '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 transition-colors hover:underline">LinkedIn Profile</a>'
-                                    ),
-                                  }}
-                                />
-                              )
-                              : (
-                                company[key]
-                              )}
+                            company[key].includes("LinkedIn:") ? (
+                              <div
+                                dangerouslySetInnerHTML={{
+                                  __html: company[key].replace(
+                                    /(https:\/\/www\.linkedin\.com\/[^\s,]+)/g,
+                                    '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 transition-colors hover:underline">LinkedIn Profile</a>'
+                                  ),
+                                }}
+                              />
+                            ) : (
+                              company[key]
+                            )}
                           </span>
                         </div>
                       )

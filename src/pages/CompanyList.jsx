@@ -118,115 +118,108 @@ function CompanyList() {
       </div>
     );
 
-    const StatBox = ({ number, label, icon }) => (
-      <div className="p-6 rounded-2xl bg-slate-800/50 backdrop-blur-sm border border-slate-700">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="p-2 rounded-lg bg-violet-500/20 text-violet-400">
-            {icon}
-          </div>
-          <span className="text-2xl font-bold">{number}</span>
+  const StatBox = ({ number, label, icon }) => (
+    <div className="p-6 rounded-2xl bg-slate-800/50 backdrop-blur-sm border border-slate-700">
+      <div className="flex items-center gap-3 mb-2">
+        <div className="p-2 rounded-lg bg-violet-500/20 text-violet-400">
+          {icon}
         </div>
-        <p className="text-slate-400 text-sm">{label}</p>
+        <span className="text-2xl font-bold">{number}</span>
       </div>
-    );
+      <p className="text-slate-400 text-sm">{label}</p>
+    </div>
+  );
 
-    const NavPill = ({ children, active }) => (
-      <button
-        className={`px-4 py-2 rounded-full text-sm transition-all ${
-          active
-            ? "bg-violet-500/20 text-violet-400"
-            : "text-slate-400 hover:text-white"
-        }`}
-      >
-        {children}
-      </button>
-    );
+  const NavPill = ({ children, active }) => (
+    <button
+      className={`px-4 py-2 rounded-full text-sm transition-all ${
+        active
+          ? "bg-violet-500/20 text-violet-400"
+          : "text-slate-400 hover:text-white"
+      }`}
+    >
+      {children}
+    </button>
+  );
 
   return (
-    <div className="min-h-screen bg-white/80 text-white bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/80 via-white/80 to-purple/400">
+    <div className="min-h-screen bg-slate-900 text-white bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900/80 via-slate-900/80 to-black">
       {/* Header */}
       <nav className="fixed w-full z-50 bg-slate-900/50 backdrop-blur-xl">
-          <div className="container mx-auto">
-            <div className="flex items-center justify-between h-20 px-6">
-              <div className="flex items-center gap-12">
-                <div className="flex items-center gap-3">
-                  <Brain className="h-8 w-8 text-violet-400" />
-                  <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-violet-400 via-indigo-400 to-blue-400">
-                    Shrinks.ai
-                  </span>
-                </div>
-                <div className="hidden md:flex space-x-1">
-                  <NavPill active={true}>Directory</NavPill>
-                  <NavPill>Research</NavPill>
-                  <NavPill>Analytics</NavPill>
-                </div>
+        <div className="container mx-auto">
+          <div className="flex items-center justify-between h-20 px-6">
+            <div className="flex items-center gap-12">
+              <div className="flex items-center gap-3">
+                <Brain className="h-8 w-8 text-violet-400" />
+                <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-violet-400 via-indigo-400 to-blue-400">
+                  Shrinks.ai
+                </span>
               </div>
-              <button className="px-6 py-2 rounded-full bg-violet-500/20 border border-violet-500/30 hover:bg-violet-500/30 transition-all">
-                Submit Company
-              </button>
-            </div>
-          </div>
-        </nav>
-
-        {/* Hero Section - Asymmetric Design */}
-        <div className="pt-32 pb-20">
-          <div className="container mx-auto px-6">
-            <div className="flex flex-col md:flex-row items-center gap-12">
-              <div className="flex-1">
-                <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-                  The Future of
-                  <span className="block bg-clip-text text-transparent bg-gradient-to-r from-violet-400 via-indigo-400 to-blue-400">
-                    Health Tech
-                  </span>
-                </h1>
-                <p className="text-slate-400 text-lg mb-8">
-                  Discover and analyze innovative companies revolutionizing
-                   healthcare through AI and technology.
-                </p>
-
-                {/* Innovative Search */}
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-blue-500 rounded-2xl blur opacity-20" />
-                  <div className="relative flex items-center bg-slate-800 rounded-2xl p-2">
-                    <Search className="h-6 w-6 text-slate-400 ml-4" />
-                    <input
-                      type="text"
-                      placeholder="Search companies, technologies, or treatments..."
-                      className="w-full bg-transparent border-0 focus:ring-0 text-white pl-4 pr-4 py-4"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                    <button className="px-6 py-3 bg-gradient-to-r from-violet-500 to-blue-500 rounded-xl text-white font-medium">
-                      Search
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Stats Cluster */}
-              <div className="flex-1">
-                <div className="grid grid-cols-2 gap-4">
-                  <StatBox
-                    number="500+"
-                    label="HealthTech Companies"
-                    icon={<Activity />}
-                  />
-                  <StatBox
-                    number="250+"
-                    label="AI Solutions"
-                    icon={<Brain />}
-                  />
-                  <StatBox
-                    number="1000+"
-                    label="Clinical Studies"
-                    icon={<Dna />}
-                  />
-                  <StatBox number="50+" label="Countries" icon={<Globe2 />} />
-                </div>
+              <div className="hidden md:flex space-x-1">
+                <NavPill active={true}>Directory</NavPill>
+                <NavPill>Research</NavPill>
+                <NavPill>Analytics</NavPill>
               </div>
             </div>
           </div>
         </div>
+      </nav>
+
+      {/* Hero Section - Asymmetric Design */}
+      <div className="pt-32 pb-20">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col md:flex-row items-center gap-12">
+            <div className="flex-1">
+              <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                The Future of
+                <span className="block bg-clip-text text-transparent bg-gradient-to-r from-violet-400 via-indigo-400 to-blue-400">
+                  Health Tech
+                </span>
+              </h1>
+              <p className="text-slate-400 text-lg mb-8">
+                Discover and analyze innovative companies revolutionizing
+                healthcare through AI and technology.
+              </p>
+
+              {/* Innovative Search */}
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-blue-500 rounded-2xl blur opacity-20" />
+                <div className="relative flex items-center bg-slate-800 rounded-2xl p-2">
+                  <Search className="h-6 w-6 text-slate-400 ml-4" />
+                  <input
+                    type="text"
+                    placeholder="Search companies, technologies, or treatments..."
+                    className="w-full bg-transparent border-0 focus:ring-0 text-white pl-4 pr-4 py-4"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                  <button className="px-6 py-3 bg-gradient-to-r from-violet-500 to-blue-500 rounded-xl text-white font-medium">
+                    Search
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Stats Cluster */}
+            <div className="flex-1">
+              <div className="grid grid-cols-2 gap-4">
+                <StatBox
+                  number="500+"
+                  label="HealthTech Companies"
+                  icon={<Activity />}
+                />
+                <StatBox number="250+" label="AI Solutions" icon={<Brain />} />
+                <StatBox
+                  number="1000+"
+                  label="Clinical Studies"
+                  icon={<Dna />}
+                />
+                <StatBox number="50+" label="Countries" icon={<Globe2 />} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Company Cards */}
       <div className="container mx-auto px-4 py-8 relative">
