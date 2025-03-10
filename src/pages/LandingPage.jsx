@@ -41,11 +41,6 @@ const InnovativeDirectory = () => {
                     Shrinks.ai
                   </span>
                 </div>
-                <div className="hidden md:flex space-x-1">
-                  <NavPill active={true}>Directory</NavPill>
-                  <NavPill>Research</NavPill>
-                  <NavPill>Analytics</NavPill>
-                </div>
               </div>
             </div>
           </div>
@@ -114,18 +109,6 @@ const InnovativeDirectory = () => {
                 onClick={() => setActiveTab("digital")}
                 icon={<Sparkles />}
                 label="Digital Therapeutics"
-              />
-              <CategoryTab
-                active={activeTab === "ai"}
-                onClick={() => setActiveTab("ai")}
-                icon={<Brain />}
-                label="AI Solutions"
-              />
-              <CategoryTab
-                active={activeTab === "telemed"}
-                onClick={() => setActiveTab("telemed")}
-                icon={<Activity />}
-                label="Telemedicine"
               />
             </div>
 

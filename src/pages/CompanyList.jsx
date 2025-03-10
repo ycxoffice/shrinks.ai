@@ -155,11 +155,6 @@ function CompanyList() {
                   Shrinks.ai
                 </span>
               </div>
-              <div className="hidden md:flex space-x-1">
-                <NavPill active={true}>Directory</NavPill>
-                <NavPill>Research</NavPill>
-                <NavPill>Analytics</NavPill>
-              </div>
             </div>
           </div>
         </div>

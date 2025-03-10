@@ -10,18 +10,14 @@ function CompanyData() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Google Sheets API endpoint - keeping the same logic
         const sheetId = "19tJdC-ayb6C5mokUCUdD7TB7COsbowvYQAOWYLqM3Yw";
         const tabId = "0";
         const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&gid=${tabId}`;
 
         const response = await fetch(url);
         const text = await response.text();
-
-        // Parse the JSON-like response from Google Sheets - maintaining same logic
         const jsonData = JSON.parse(text.substring(47).slice(0, -2));
 
-        // Extract column headers and company data - maintaining same logic
         const headers = jsonData.table.cols.map((col) => col.label);
         const rows = jsonData.table.rows.map((row) => {
           const companyData = {};
@@ -33,7 +29,6 @@ function CompanyData() {
           return companyData;
         });
 
-        // Find the specific company - maintaining same logic
         const foundCompany = rows.find(
           (comp) => decodeURIComponent(companyName) === comp["Company Name"]
         );
@@ -54,20 +49,56 @@ function CompanyData() {
     fetchData();
   }, [companyName]);
 
-  if (loading)
+  // Updated function to render text with clickable URLs, including bare domains
+  const renderWithLinks = (text) => {
+    // Match full URLs or bare domains (e.g., growtherapy.com, linkedin.com/company/xyz)
+    const urlRegex =
+      /(https?:\/\/[^\s]+)|([a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?)/g;
+    const parts = text.split(urlRegex).filter(Boolean); // Filter out empty strings
+
     return (
-      <div className="flex justify-center items-center h-screen  bg-white/80">
+      <>
+        {parts.map((part, index) => {
+          const isFullUrl = part.match(/^https?:\/\//);
+          const isDomain = part.match(
+            /^[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?$/
+          );
+
+          if (isFullUrl || isDomain) {
+            const href = isFullUrl ? part : `https://${part}`;
+            return (
+              <a
+                key={index}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:text-blue-300 transition-colors hover:underline"
+              >
+                {part}
+              </a>
+            );
+          }
+          return <span key={index}>{part}</span>;
+        })}
+      </>
+    );
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-slate-900">
         <div className="relative w-24 h-24">
-          <div className="absolute top-0 left-0 w-full h-full border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
-          <div className="absolute top-2 left-2 w-20 h-20 border-4 border-pink-400 border-t-transparent rounded-full animate-spin"></div>
-          <div className="absolute top-4 left-4 w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+          <div className="absolute top-0 left-0 w-full h-full border-4 border-violet-500 border-t-transparent rounded-full animate-spin"></div>
+          <div className="absolute top-2 left-2 w-20 h-20 border-4 border-blue-400 border-t-transparent rounded-full animate-spin"></div>
+          <div className="absolute top-4 left-4 w-16 h-16 border-4 border-violet-500 border-t-transparent rounded-full animate-spin"></div>
         </div>
       </div>
     );
+  }
 
-  if (error)
+  if (error) {
     return (
-      <div className="flex flex-col justify-center items-center h-screen bg-gradient-to-br from-gray-900 to-black text-white p-6">
+      <div className="flex flex-col justify-center items-center h-screen bg-slate-900 text-white p-6">
         <div className="p-8 bg-gray-800 rounded-2xl shadow-2xl border border-red-500/30 max-w-md w-full">
           <div className="text-center">
             <svg
@@ -84,7 +115,7 @@ function CompanyData() {
               />
             </svg>
             <p className="text-xl font-bold text-red-400 mb-2">{error}</p>
-            <p className="text-gray-700 mb-6">
+            <p className="text-gray-300 mb-6">
               We couldn't find the company you're looking for.
             </p>
             <Link
@@ -110,10 +141,10 @@ function CompanyData() {
         </div>
       </div>
     );
+  }
 
   if (!company) return null;
 
-  // Define attribute groups based on your list
   const generalInfo = [
     "Industry",
     "Headquarters",
@@ -135,13 +166,20 @@ function CompanyData() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-slate-900 text-white">
+      {/* Animated Background */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute w-[500px] h-[500px] bg-violet-500/30 rounded-full blur-[100px] -top-20 -left-20" />
+        <div className="absolute w-[500px] h-[500px] bg-blue-500/30 rounded-full blur-[100px] top-40 right-0" />
+        <div className="absolute w-[500px] h-[500px] bg-indigo-500/30 rounded-full blur-[100px] bottom-0 left-60" />
+      </div>
+
+      <div className="container mx-auto px-4 py-8 relative">
         <Link
           to="/companies"
-          className="inline-flex items-center bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 mb-8 transition-all duration-300 group"
+          className="inline-flex items-center bg-clip-text text-transparent bg-gradient-to-r from-violet-400 via-indigo-400 to-blue-400 mb-8 transition-all duration-300 group"
         >
-          <div className="bg-pink-400/30 p-2 rounded-full mr-3 group-hover:bg-pink-400/80 transition-all">
+          <div className="bg-violet-400/30 p-2 rounded-full mr-3 group-hover:bg-violet-400/80 transition-all">
             <svg
               className="w-5 h-5"
               fill="none"
@@ -161,12 +199,12 @@ function CompanyData() {
 
         <div className="bg-white-800/20 backdrop-blur-sm rounded-3xl shadow-2xl overflow-hidden border border-gray-700/50 relative">
           {/* Decorative elements */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-white-500/10 rounded-full filter blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white-500/10 rounded-full filter blur-3xl"></div>
+          <div className="absolute top-0 right-0 w-64 h-64 bg-violet-500/10 rounded-full filter blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/10 rounded-full filter blur-3xl"></div>
 
-          <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-8 relative overflow-hidden">
-            <div className="absolute -right-20 -top-20 bg-white/10 w-60 h-60 rounded-full blur-3xl"></div>
-            <div className="absolute -left-10 -bottom-10 bg-white-400/20 w-40 h-40 rounded-full blur-xl"></div>
+          <div className="bg-gradient-to-r from-violet-600 via-indigo-600 to-blue-600 p-8 relative overflow-hidden">
+            <div className="absolute -right-20 -top-20 bg-violet-400/10 w-60 h-60 rounded-full blur-3xl"></div>
+            <div className="absolute -left-10 -bottom-10 bg-blue-400/10 w-40 h-40 rounded-full blur-xl"></div>
 
             <div className="relative z-10">
               <div className="flex flex-col md:flex-row md:items-end justify-between">
@@ -216,7 +254,7 @@ function CompanyData() {
               <div className="mb-10 bg-gray-800/20 p-6 rounded-2xl border border-gray-700/50 backdrop-blur-sm">
                 <h2 className="text-xl font-semibold text-white mb-4 flex items-center">
                   <svg
-                    className="w-5 h-5 mr-3 text-emerald-400"
+                    className="w-5 h-5 mr-3 text-violet-400"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -240,11 +278,11 @@ function CompanyData() {
             {/* Information Groups */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {/* General Information */}
-              <div className="bg-gradient-to-r from-purple-600/60 to-pink-600/60 p-6 rounded-2xl border border-gray-700/50 backdrop-blur-sm transition-colors duration-300">
+              <div className="bg-gradient-to-r from-violet-600/60 to-blue-600/60 p-6 rounded-2xl border border-gray-700/50 backdrop-blur-sm transition-colors duration-300">
                 <h2 className="text-xl font-semibold text-white mb-5 flex items-center">
                   <div className="bg-gray-700/50 p-1.5 rounded-lg mr-3">
                     <svg
-                      className="w-5 h-5 text-pink-400"
+                      className="w-5 h-5 text-violet-400"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -265,7 +303,7 @@ function CompanyData() {
                     (key) =>
                       company[key] && (
                         <div key={key} className="flex flex-col">
-                          <span className="text-gray-700 text-sm font-medium mb-1">
+                          <span className="text-gray-300 text-sm font-medium mb-1">
                             {key}
                           </span>
                           <span className="text-white font-medium text-lg">
@@ -278,11 +316,11 @@ function CompanyData() {
               </div>
 
               {/* Financial Information */}
-              <div className="bg-gradient-to-r from-purple-600/60 to-pink-600/60 p-6 rounded-2xl border border-gray-700/50 backdrop-blur-sm transition-colors duration-300">
+              <div className="bg-gradient-to-r from-violet-600/60 to-blue-600/60 p-6 rounded-2xl border border-gray-700/50 backdrop-blur-sm transition-colors duration-300">
                 <h2 className="text-xl font-semibold text-white mb-5 flex items-center">
                   <div className="bg-gray-700/50 p-1.5 rounded-lg mr-3">
                     <svg
-                      className="w-5 h-5 text-pink-400"
+                      className="w-5 h-5 text-violet-400"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -303,7 +341,7 @@ function CompanyData() {
                     (key) =>
                       company[key] && (
                         <div key={key} className="flex flex-col">
-                          <span className="text-gray-700 text-sm font-medium mb-1">
+                          <span className="text-gray-300 text-sm font-medium mb-1">
                             {key}
                           </span>
                           <span className="text-white font-medium text-lg">
@@ -319,11 +357,11 @@ function CompanyData() {
               </div>
 
               {/* Product & Capabilities */}
-              <div className="bg-gradient-to-r from-purple-600/60 to-pink-600/60 p-6 rounded-2xl border border-gray-700/50 backdrop-blur-sm transition-colors duration-300">
+              <div className="bg-gradient-to-r from-violet-600/60 to-blue-600/60 p-6 rounded-2xl border border-gray-700/50 backdrop-blur-sm transition-colors duration-300">
                 <h2 className="text-xl font-semibold text-white mb-5 flex items-center">
                   <div className="bg-gray-700/50 p-1.5 rounded-lg mr-3">
                     <svg
-                      className="w-5 h-5 text-pink-400"
+                      className="w-5 h-5 text-violet-400"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -344,7 +382,7 @@ function CompanyData() {
                     (key) =>
                       company[key] && (
                         <div key={key} className="flex flex-col">
-                          <span className="text-gray-700 text-sm font-medium mb-1">
+                          <span className="text-gray-300 text-sm font-medium mb-1">
                             {key}
                           </span>
                           <span className="text-white font-medium text-lg">
@@ -359,11 +397,11 @@ function CompanyData() {
 
             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* People & Contacts */}
-              <div className="bg-gradient-to-r from-purple-600/60 to-pink-600/60 p-6 rounded-2xl border border-gray-700/50 backdrop-blur-sm transition-colors duration-300">
+              <div className="bg-gradient-to-r from-violet-600/60 to-blue-600/60 p-6 rounded-2xl border border-gray-700/50 backdrop-blur-sm transition-colors duration-300">
                 <h2 className="text-xl font-semibold text-white mb-5 flex items-center">
                   <div className="bg-gray-700/50 p-1.5 rounded-lg mr-3">
                     <svg
-                      className="w-5 h-5 text-pink-400"
+                      className="w-5 h-5 text-violet-400"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -384,23 +422,11 @@ function CompanyData() {
                     (key) =>
                       company[key] && (
                         <div key={key} className="flex flex-col">
-                          <span className="text-gray-700 text-sm font-medium mb-2">
+                          <span className="text-gray-300 text-sm font-medium mb-2">
                             {key}
                           </span>
                           <span className="text-white">
-                            {key === "Founders & LinkedIn URLs" &&
-                            company[key].includes("LinkedIn:") ? (
-                              <div
-                                dangerouslySetInnerHTML={{
-                                  __html: company[key].replace(
-                                    /(https:\/\/www\.linkedin\.com\/[^\s,]+)/g,
-                                    '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 transition-colors hover:underline">LinkedIn Profile</a>'
-                                  ),
-                                }}
-                              />
-                            ) : (
-                              company[key]
-                            )}
+                            {renderWithLinks(company[key])}
                           </span>
                         </div>
                       )
@@ -414,4 +440,5 @@ function CompanyData() {
     </div>
   );
 }
+
 export default CompanyData;
